@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "software_timer.h"
 // Comment for check
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,37 +57,13 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int timer0_counter = 0;
-int timer0_flag = 0;
-int TIMER_CYCLE = 10;
+
+
 int counter = 100;
 int hour = 15, minute = 8, second = 50;
 const int MAX_LED = 4;
 int index_led = 0;
-void setTimer0(int duration){
-	timer0_counter = duration /TIMER_CYCLE;
-	timer0_flag = 0;
-}
-void timer_run(){
-	if(timer0_counter > 0){
-		timer0_counter--;
-		if(timer0_counter == 0)
-		{timer0_flag = 1;
-		second++;
-			if (second >= 60) {
-				second = 0;
-				minute++;
-				if (minute >= 60) {
-					minute = 0;
-					hour++;
-					if (hour >= 24) {
-						hour = 0;
-					}
-				}
-			}
-		}
-	}
-}
+
 void display7SEG(int num) {
 	HAL_GPIO_WritePin(a_GPIO_Port, a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(b_GPIO_Port, b_Pin, GPIO_PIN_SET);
@@ -254,11 +231,6 @@ int main(void)
 	  else {HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, SET);
 	  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET);
 	  }
-	    if(timer0_flag == 1){
-
-	        updateClockBuffer(hour, minute, second);
-	        setTimer0(1000);
-	    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -430,7 +402,7 @@ void update7SEG(int index){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timer_run();
 	counter--;
-	if(counter == 75){
+	if(counter == 50){
 
         // Turn on the first 7-segment LED and turn off the second one
 		//HAL_GPIO_WritePin(DOT_Port, DOT_Pin, RESET);
@@ -438,39 +410,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
-		update7SEG(0);
+		display7SEG(1);
 	}
-	else if (counter == 50){
+	else if (counter <= 0){
         // Turn on the second 7-segment LED and turn off the first one
         // Display number "2" on the second LED
-
+		counter = 100;
 		//HAL_GPIO_WritePin(DOT_Port, DOT_Pin, SET);
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
-		update7SEG(1);
+		display7SEG(2);
 	}
-	else if (counter == 25){
-        // Turn on the third 7-segment LED and turn off the first one
-        // Display number "2" on the second LED
 
-		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
-		update7SEG(2);
-
-	}
-	else if (counter <=0){
-		counter = 100;
-
-		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
-		update7SEG(3);
-	}
 }
 
 /* USER CODE END 4 */
