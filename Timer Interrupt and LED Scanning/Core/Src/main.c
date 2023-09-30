@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "software_timer.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,37 +57,14 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int timer0_counter = 0;
-int timer0_flag = 0;
-int TIMER_CYCLE = 10;
+
+
+
 int counter = 100;
 int hour = 15, minute = 8, second = 50;
 const int MAX_LED = 4;
 int index_led = 0;
-void setTimer0(int duration){
-	timer0_counter = duration /TIMER_CYCLE;
-	timer0_flag = 0;
-}
-void timer_run(){
-	if(timer0_counter > 0){
-		timer0_counter--;
-		if(timer0_counter == 0)
-		{timer0_flag = 1;
-		second++;
-			if (second >= 60) {
-				second = 0;
-				minute++;
-				if (minute >= 60) {
-					minute = 0;
-					hour++;
-					if (hour >= 24) {
-						hour = 0;
-					}
-				}
-			}
-		}
-	}
-}
+
 void display7SEG(int num) {
 	HAL_GPIO_WritePin(a_GPIO_Port, a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(b_GPIO_Port, b_Pin, GPIO_PIN_SET);
@@ -255,7 +233,18 @@ int main(void)
 	  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET);
 	  }
 	    if(timer0_flag == 1){
-
+			second++;
+				if (second >= 60) {
+					second = 0;
+					minute++;
+					if (minute >= 60) {
+						minute = 0;
+						hour++;
+						if (hour >= 24) {
+							hour = 0;
+						}
+					}
+				}
 	        updateClockBuffer(hour, minute, second);
 	        setTimer0(1000);
 	    }

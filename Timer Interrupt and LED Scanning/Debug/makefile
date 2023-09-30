@@ -64,8 +64,8 @@ all: main-build
 main-build: Timer\ Interrupt\ and\ LED\ Scanning.elf secondary-outputs
 
 # Tool invocations
-Timer\ Interrupt\ and\ LED\ Scanning.elf: $(OBJS) $(USER_OBJS) C:\Users\ADMIN\STM32CubeIDE\workspace_1.7.0\Timer\ Interrupt\ and\ LED\ Scanning\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Timer Interrupt and LED Scanning.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\ADMIN\STM32CubeIDE\workspace_1.7.0\Timer Interrupt and LED Scanning\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Timer Interrupt and LED Scanning.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Timer\ Interrupt\ and\ LED\ Scanning.elf: $(OBJS) $(USER_OBJS) C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT_MCU_HCMUT\Timer\ Interrupt\ and\ LED\ Scanning\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Timer Interrupt and LED Scanning.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT_MCU_HCMUT\Timer Interrupt and LED Scanning\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Timer Interrupt and LED Scanning.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
