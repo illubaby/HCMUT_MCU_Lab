@@ -57,7 +57,7 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
+int led_buffer[4] = {1, 2, 3, 4};
 int hour = 15, minute = 8, second = 50;
 const int MAX_LED = 4;
 int index_led = 0;
@@ -169,8 +169,47 @@ void display7SEG(int num) {
 	}
 	return;
 }
+void update7SEG(int index){
+	if(index_led>MAX_LED) index_led = (index_led + 1) % MAX_LED;
+    switch (index){
+        case 0:
+            //Display the first 7SEG with led_buffer[0]
+    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+        	display7SEG(led_buffer[0]);
+            break;
+        case 1:
+            //Display the second 7SEG with led_buffer[1]
+    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+        	display7SEG(led_buffer[1]);
+            break;
+        case 2:
+            //Display the third 7SEG with led_buffer[2]
+    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+        	display7SEG(led_buffer[2]);
+        	break;
+        case 3:
+        	display7SEG(led_buffer[3]);
+            //Display the forth 7SEG with led_buffer[3]
+    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
+            break;
+        default:
+            break;
+    }
+    return;
+}
 
-int led_buffer[4] = {1, 2, 3, 4};
 void updateClockBuffer(int hour, int minute, int second){
 //    led_buffer[0] = hour/10;
 //    led_buffer[1] = hour%10;
