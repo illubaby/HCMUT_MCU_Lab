@@ -59,8 +59,6 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 
 
-
-int counter = 100;
 int hour = 15, minute = 8, second = 50;
 const int MAX_LED = 4;
 int index_led = 0;
@@ -172,6 +170,7 @@ void display7SEG(int num) {
 	}
 	return;
 }
+
 int led_buffer[4] = {1, 2, 3, 4};
 void updateClockBuffer(int hour, int minute, int second){
 //    led_buffer[0] = hour/10;
@@ -225,6 +224,7 @@ int main(void)
 
   while (1)
   {
+
 	  if (counter>50 && counter<75){
 		  HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, RESET);
 		  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, RESET);
@@ -232,6 +232,7 @@ int main(void)
 	  else {HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, SET);
 	  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET);
 	  }
+
 	    if(timer0_flag == 1){
 			second++;
 				if (second >= 60) {
@@ -414,12 +415,8 @@ void update7SEG(int index){
             break;
     }
 }
-
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timer_run();
-	counter--;
-	if(counter == 75){
+void led_indicate(){
+	if(counter == 75 ){
 
         // Turn on the first 7-segment LED and turn off the second one
 		//HAL_GPIO_WritePin(DOT_Port, DOT_Pin, RESET);
@@ -429,7 +426,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
 		update7SEG(0);
 	}
-	else if (counter == 50){
+	else if (counter ==50){
         // Turn on the second 7-segment LED and turn off the first one
         // Display number "2" on the second LED
 
@@ -440,7 +437,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
 		update7SEG(1);
 	}
-	else if (counter == 25){
+	else if (counter ==25){
         // Turn on the third 7-segment LED and turn off the first one
         // Display number "2" on the second LED
 
@@ -451,7 +448,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		update7SEG(2);
 
 	}
-	else if (counter <=0){
+	else if (counter <=0 ){
+		if (counter<=0)
 		counter = 100;
 
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
@@ -460,6 +458,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
 		update7SEG(3);
 	}
+}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	led_indicate();
+	timer_run();
 }
 
 /* USER CODE END 4 */
