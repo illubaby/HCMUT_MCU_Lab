@@ -1,0 +1,26 @@
+18:23:53 **** Incremental Build of configuration Debug for project Timer Interrupt and LED Scanning ****
+make -j20 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/software_timer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/software_timer.d" -MT"Core/Src/software_timer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/software_timer.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "Timer Interrupt and LED Scanning.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT_MCU_HCMUT\Timer Interrupt and LED Scanning\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Timer Interrupt and LED Scanning.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Timer Interrupt and LED Scanning.elf
+ 
+arm-none-eabi-size   Timer\ Interrupt\ and\ LED\ Scanning.elf 
+arm-none-eabi-objdump -h -S  Timer\ Interrupt\ and\ LED\ Scanning.elf  > "Timer Interrupt and LED Scanning.list"
+arm-none-eabi-objcopy  -O ihex  Timer\ Interrupt\ and\ LED\ Scanning.elf  "Timer Interrupt and LED Scanning.hex"
+   text	   data	    bss	    dec	    hex	filename
+  10612	     80	   1664	  12356	   3044	Timer Interrupt and LED Scanning.elf
+arm-none-eabi-objcopy  -O binary  Timer\ Interrupt\ and\ LED\ Scanning.elf  "Timer Interrupt and LED Scanning.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Timer Interrupt and LED Scanning.hex
+Finished building: Timer Interrupt and LED Scanning.bin
+Finished building: Timer Interrupt and LED Scanning.list
+ 
+ 
+ 
+
+18:23:54 Build Finished. 0 errors, 0 warnings. (took 1s.74ms)
+
