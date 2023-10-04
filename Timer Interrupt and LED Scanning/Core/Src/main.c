@@ -173,14 +173,15 @@ void display7SEG(int num) {
 }
 int led_buffer[4] = {1, 2, 3, 4};
 void updateClockBuffer(int hour, int minute, int second){
-//    led_buffer[0] = hour/10;
-//    led_buffer[1] = hour%10;
-//    led_buffer[2] = minute/10;
-//    led_buffer[3] = minute%10;
-    led_buffer[0] = minute/10;
-    led_buffer[1] = minute%10;
-    led_buffer[2] = second/10;
-    led_buffer[3] = second%10;
+    led_buffer[0] = hour/10;
+    led_buffer[1] = hour%10;
+    led_buffer[2] = minute/10;
+    led_buffer[3] = minute%10;
+
+//    led_buffer[0] = minute/10;
+//    led_buffer[1] = minute%10;
+//    led_buffer[2] = second/10;
+//    led_buffer[3] = second%10;
 }
 /* USER CODE END 0 */
 
@@ -409,10 +410,6 @@ void update7SEG(int index){
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	counter--;
-	led_buffer[0] = 5;
-	led_buffer[1] = 2;
-	led_buffer[2] = 3;
-	led_buffer[3] = 4;
 	if(counter == 75){
 		// Turn on the first 7-segment LED and turn off the second one
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
@@ -464,9 +461,7 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1)
-  {
-  }
+
   /* USER CODE END Error_Handler_Debug */
 }
 
