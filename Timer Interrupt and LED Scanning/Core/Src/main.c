@@ -478,21 +478,8 @@ int main(void)
 			setTimer1(250);
 		}
 
-		if ( timer2_flag == 1) {
 
-			HAL_GPIO_TogglePin ( DOT_GPIO_Port, DOT_Pin ) ;
-			setTimer2 (500) ;
-		}
-		if ( timer3_flag == 1) {
-			updateLEDMatrix(matrix_led++);
-			if (matrix_led>=8) matrix_led = 0;
 
-			setTimer3(50) ;
-		}
-		if ( timer4_flag == 1) {
-			updateMatrix_Buffer();
-			setTimer4(8*50) ;
-		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
