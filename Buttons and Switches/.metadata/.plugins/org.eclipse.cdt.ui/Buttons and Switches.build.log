@@ -1,0 +1,22 @@
+08:45:36 **** Incremental Build of configuration Debug for project Buttons and Switches ****
+make -j20 all 
+arm-none-eabi-gcc -o "Buttons and Switches.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT_MCU_HCMUT\Buttons and Switches\Buttons and Switches\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Buttons and Switches.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Buttons and Switches.elf
+ 
+arm-none-eabi-size   Buttons\ and\ Switches.elf 
+arm-none-eabi-objdump -h -S  Buttons\ and\ Switches.elf  > "Buttons and Switches.list"
+arm-none-eabi-objcopy  -O ihex  Buttons\ and\ Switches.elf  "Buttons and Switches.hex"
+   text	   data	    bss	    dec	    hex	filename
+   6880	     24	   1640	   8544	   2160	Buttons and Switches.elf
+arm-none-eabi-objcopy  -O binary  Buttons\ and\ Switches.elf  "Buttons and Switches.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Buttons and Switches.list
+Finished building: Buttons and Switches.hex
+Finished building: Buttons and Switches.bin
+ 
+ 
+ 
+
+08:45:37 Build Finished. 0 errors, 0 warnings. (took 893ms)
+
