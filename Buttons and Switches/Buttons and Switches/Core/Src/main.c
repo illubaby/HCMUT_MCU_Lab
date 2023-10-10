@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "button.h"
+#include "fsm_automatic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,11 +95,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  led_status = INIT;
   while (1)
   {
-	  if (isButton1Pressed()){
-		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port,LED_RED_Pin);
-	  }
+	  fsm_automatic_run();
+//	  if (isButton1Pressed()){
+//		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port,LED_RED_Pin);
+//	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -220,8 +223,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	getKeyInput();
-
+	//getKeyInput();
+	timer_run();
 }
 /* USER CODE END 4 */
 
