@@ -96,7 +96,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (isButton1Pressed()){
+	  if (button1_flag){
+		  button1_flag = 0 ;
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port,LED_RED_Pin);
 	  }
     /* USER CODE END WHILE */

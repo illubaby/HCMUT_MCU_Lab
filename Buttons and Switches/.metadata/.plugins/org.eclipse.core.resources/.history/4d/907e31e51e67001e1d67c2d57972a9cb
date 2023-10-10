@@ -17,6 +17,7 @@ int isButton1Pressed(){
 
 void subKeyProcess(){
 	//TODO
+
 	button1_flag = 1;
 }
 
