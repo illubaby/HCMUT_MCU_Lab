@@ -188,3 +188,18 @@ java.io.FileNotFoundException: C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-10-10 10:22:16.100
 !MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2023-10-10 12:11:46.684 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-10-10 12:11:51.435
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-10-10 12:11:51.483
+!MESSAGE Log4j initialized with config file C:\Users\ADMIN\OneDrive\Documents\LABSTM32\REPORT_MCU_HCMUT\Buttons and Switches\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-10-10 12:11:55.686
+!MESSAGE Started RMI Server, listening on port 41337

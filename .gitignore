@@ -1,6 +1,5 @@
 # Prerequisites
 *.d
-.metadata
 # Object files
 *.o
 *.ko
@@ -50,3 +49,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
