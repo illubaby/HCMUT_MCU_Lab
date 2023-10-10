@@ -50,7 +50,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 ### Eclipse ###
-.metadata
+Buttons and Switches/.metadata
 bin/
 tmp/
 *.tmp
@@ -61,6 +61,3 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-*.log
-*.log
-version.ini
