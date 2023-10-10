@@ -37,10 +37,9 @@ void getKeyInput(){
     }else{					// long press
        TimeOutForKeyPress --;
         if (TimeOutForKeyPress == 0){
-        	TimeOutForKeyPress = 200;
-        	if (KeyReg2 == PRESSED_STATE){
-        		subKeyProcess();
-        	}
+        	TimeOutForKeyPress = 500;
+        	if (KeyReg2 == PRESSED_STATE)
+			subKeyProcess();
         }
     }
   }
