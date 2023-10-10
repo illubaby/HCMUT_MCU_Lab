@@ -63,4 +63,4 @@ local.properties
 .recommenders
 Buttons and Switches/.metadata/.log
 
-*xml
+*.xml
