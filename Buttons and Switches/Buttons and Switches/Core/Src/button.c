@@ -1,48 +1,61 @@
 #include "button.h"
-int KeyReg0 = NORMAL_STATE;
-int KeyReg1 = NORMAL_STATE;
-int KeyReg2 = NORMAL_STATE;
-int KeyReg3 = NORMAL_STATE;
 
-int TimeOutForKeyPress =  500;
-int button1_flag = 0;
+#define NUMBER_OF_BUTTONS 3 // Or however many buttons you have
 
-int isButton1Pressed(){
-	if(button1_flag == 1){
-		button1_flag = 0;
-		return 1;
-	}
-	return 0;
+typedef struct {
+  int KeyReg0;
+  int KeyReg1;
+  int KeyReg2;
+  int KeyReg3;
+  int TimeOutForKeyPress;
+  int flag;
+  uint16_t gpio_pin;
+  GPIO_TypeDef* gpio_port;
+} Button;
+
+Button buttons[NUMBER_OF_BUTTONS] = {
+  {NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, 500, 0, BUTTON1_Pin, BUTTON1_GPIO_Port},
+  {NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, 500, 0, BUTTON2_Pin, BUTTON2_GPIO_Port},
+  {NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, NORMAL_STATE, 500, 0, BUTTON3_Pin, BUTTON3_GPIO_Port}
+};
+
+void subKeyProcess(int index) {
+
+	HAL_GPIO_TogglePin ( TEST_GPIO_Port, TEST_Pin ) ;
+  buttons[index].flag = 1;
 }
 
-void subKeyProcess(){
-	//TODO
-	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	button1_flag = 1;
+int isButtonPressed(int index){
+  if(buttons[index].flag == 1) {
+    buttons[index].flag = 0;
+    return 1;
+  }
+  return 0;
 }
 
-void getKeyInput(){
-  KeyReg0 = KeyReg1;
-  KeyReg1 = KeyReg2;
-  //Add your button here
-  KeyReg2 = HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
+void getKeyInput() {
+  int i;
+  for(i = 0; i < NUMBER_OF_BUTTONS; i++) {
+    Button *b = &buttons[i];
+    b->KeyReg0 = b->KeyReg1;
+    b->KeyReg1 = b->KeyReg2;
+    b->KeyReg2 = HAL_GPIO_ReadPin(b->gpio_port, b->gpio_pin);
 
-  if ((KeyReg1 == KeyReg0) && (KeyReg1 == KeyReg2)){
-    if (KeyReg3 != KeyReg2){ // previous state differ from current state update
-      KeyReg3 = KeyReg2;
-
-      if (KeyReg2 == PRESSED_STATE){	// handle when press
-        subKeyProcess();
-      }
-    }else{					// long press
-       TimeOutForKeyPress --;
-        if (TimeOutForKeyPress == 0){
-        	TimeOutForKeyPress = 200;
-        	if (KeyReg2 == PRESSED_STATE){
-        		subKeyProcess();
-        	}
+    if ((b->KeyReg1 == b->KeyReg0) && (b->KeyReg1 == b->KeyReg2)){
+      if (b->KeyReg3 != b->KeyReg2){
+        b->KeyReg3 = b->KeyReg2;
+        if (b->KeyReg2 == PRESSED_STATE) {
+          subKeyProcess(i);
         }
+      } else {
+        b->TimeOutForKeyPress--;
+        if (b->TimeOutForKeyPress == 0){
+          b->TimeOutForKeyPress = 200;
+          if (b->KeyReg2 == PRESSED_STATE){
+            subKeyProcess(i);
+          }
+        }
+      }
     }
   }
 }
-

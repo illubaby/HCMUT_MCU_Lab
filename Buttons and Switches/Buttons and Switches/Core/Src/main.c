@@ -95,14 +95,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer2(100);
   led_status = INIT;
   while (1)
   {
-	  fsm_automatic_run();
-	  //fsm_manual_run();
-//	  if (isButton1Pressed()){
-//		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port,LED_RED_Pin);
+//	  if ( timer2_flag == 1) {
+//
+//		  HAL_GPIO_TogglePin ( RED1_GPIO_Port, RED1_Pin ) ;
+//		  setTimer2 (500) ;
 //	  }
+	  //fsm_automatic_run();
+	  //fsm_manual_run();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -200,23 +204,48 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_Pin|LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, RED1_Pin|YELLOW1_Pin|GREEN1_Pin|RED2_Pin
+                          |YELLOW2_Pin|GREEN2_Pin|EN0_Pin|EN1_Pin
+                          |EN2_Pin|EN3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : BUTTON1_Pin */
-  GPIO_InitStruct.Pin = BUTTON1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(BUTTON1_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, a1_Pin|b1_Pin|c1_Pin|b2_Pin
+                          |c2_Pin|d2_Pin|e2_Pin|f2_Pin
+                          |g2_Pin|d1_Pin|e1_Pin|f1_Pin
+                          |g1_Pin|TEST_Pin|a2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_Pin LED_RED_Pin LED_YELLOW_Pin LED_GREEN_Pin */
-  GPIO_InitStruct.Pin = LED_Pin|LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin;
+  /*Configure GPIO pins : RED1_Pin YELLOW1_Pin GREEN1_Pin RED2_Pin
+                           YELLOW2_Pin GREEN2_Pin EN0_Pin EN1_Pin
+                           EN2_Pin EN3_Pin */
+  GPIO_InitStruct.Pin = RED1_Pin|YELLOW1_Pin|GREEN1_Pin|RED2_Pin
+                          |YELLOW2_Pin|GREEN2_Pin|EN0_Pin|EN1_Pin
+                          |EN2_Pin|EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : a1_Pin b1_Pin c1_Pin b2_Pin
+                           c2_Pin d2_Pin e2_Pin f2_Pin
+                           g2_Pin d1_Pin e1_Pin f1_Pin
+                           g1_Pin TEST_Pin a2_Pin */
+  GPIO_InitStruct.Pin = a1_Pin|b1_Pin|c1_Pin|b2_Pin
+                          |c2_Pin|d2_Pin|e2_Pin|f2_Pin
+                          |g2_Pin|d1_Pin|e1_Pin|f1_Pin
+                          |g1_Pin|TEST_Pin|a2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : BUTTON1_Pin BUTTON2_Pin BUTTON3_Pin */
+  GPIO_InitStruct.Pin = BUTTON1_Pin|BUTTON2_Pin|BUTTON3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
