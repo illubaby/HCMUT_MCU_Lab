@@ -20,9 +20,8 @@ Button buttons[NUMBER_OF_BUTTONS] = {
 };
 
 void subKeyProcess(int index) {
-
 	HAL_GPIO_TogglePin ( TEST_GPIO_Port, TEST_Pin ) ;
-  buttons[index].flag = 1;
+	buttons[index].flag = 1;
 }
 
 int isButtonPressed(int index){
@@ -42,7 +41,7 @@ void getKeyInput() {
     b->KeyReg2 = HAL_GPIO_ReadPin(b->gpio_port, b->gpio_pin);
 
     if ((b->KeyReg1 == b->KeyReg0) && (b->KeyReg1 == b->KeyReg2)){
-      if (b->KeyReg3 != b->KeyReg2){
+      if (b->KeyReg3 != b->KeyReg2){	// update state
         b->KeyReg3 = b->KeyReg2;
         if (b->KeyReg2 == PRESSED_STATE) {
           subKeyProcess(i);
@@ -51,7 +50,7 @@ void getKeyInput() {
         b->TimeOutForKeyPress--;
         if (b->TimeOutForKeyPress == 0){
           b->TimeOutForKeyPress = 200;
-          if (b->KeyReg2 == PRESSED_STATE){
+          if (b->KeyReg2 == PRESSED_STATE){	// handle long press
             subKeyProcess(i);
           }
         }

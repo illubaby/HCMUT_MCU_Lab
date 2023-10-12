@@ -99,11 +99,7 @@ int main(void)
   led_status = INIT;
   while (1)
   {
-//	  if ( timer2_flag == 1) {
-//
-//		  HAL_GPIO_TogglePin ( RED1_GPIO_Port, RED1_Pin ) ;
-//		  setTimer2 (500) ;
-//	  }
+
 	  //fsm_automatic_run();
 	  //fsm_manual_run();
 
