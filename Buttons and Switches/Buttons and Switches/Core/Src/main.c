@@ -95,13 +95,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer2(100);
+  setTimer(0,100);
   led_status = INIT;
-  update7SEG(1);
+  led_buffer[0] = 1;
+  led_buffer[1] = 2;
+  update7SEG(0);
+  initializeArrays_for_Button();
   while (1)
   {
 
-	  //fsm_automatic_run();
+	  fsm_automatic_run();
 	  //fsm_manual_run();
 
     /* USER CODE END WHILE */
