@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "7_SEG_Display.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "button.h"

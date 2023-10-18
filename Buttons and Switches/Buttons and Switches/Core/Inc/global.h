@@ -20,4 +20,7 @@
 #define MAN_YELLOW	14
 extern int led_status;
 
+extern int led_buffer[2];
+extern int index_led;
+extern int MAX_LED;
 #endif /* INC_GLOBAL_H_ */

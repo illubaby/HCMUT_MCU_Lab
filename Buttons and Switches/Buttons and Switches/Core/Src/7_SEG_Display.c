@@ -6,7 +6,7 @@
  */
 
 #include "main.h"
-
+#include "global.h"
 void display7SEG(int num,
         GPIO_TypeDef* a_GPIO_Port, uint16_t a_Pin,
         GPIO_TypeDef* b_GPIO_Port, uint16_t b_Pin,
@@ -121,9 +121,7 @@ void display7SEG(int num,
 	}
 	return;
 }
-int led_buffer[2];
-int index_led;
-int MAX_LED = 2;
+
 void update7SEG(int index){
 	if(index_led>MAX_LED) index_led = (index_led + 1) % MAX_LED;
     switch (index){
@@ -133,7 +131,7 @@ void update7SEG(int index){
     		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
     		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
     		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
-    		display7SEG(5, a1_GPIO_Port, a1_Pin, b1_GPIO_Port, b1_Pin, c1_GPIO_Port, c1_Pin, d1_GPIO_Port, d1_Pin, e1_GPIO_Port, e1_Pin, f1_GPIO_Port, f1_Pin, g1_GPIO_Port, g1_Pin);
+    		display7SEG(led_buffer[0], a1_GPIO_Port, a1_Pin, b1_GPIO_Port, b1_Pin, c1_GPIO_Port, c1_Pin, d1_GPIO_Port, d1_Pin, e1_GPIO_Port, e1_Pin, f1_GPIO_Port, f1_Pin, g1_GPIO_Port, g1_Pin);
             break;
         case 1:
             //Display the second 7SEG with led_buffer[1]
@@ -141,7 +139,7 @@ void update7SEG(int index){
     		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
     		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
     		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
-    		display7SEG(5, a2_GPIO_Port, a2_Pin, b2_GPIO_Port, b2_Pin, c2_GPIO_Port, c2_Pin, d2_GPIO_Port, d2_Pin, e2_GPIO_Port, e2_Pin, f2_GPIO_Port, f2_Pin, g2_GPIO_Port, g2_Pin);
+    		display7SEG(led_buffer[1], a2_GPIO_Port, a2_Pin, b2_GPIO_Port, b2_Pin, c2_GPIO_Port, c2_Pin, d2_GPIO_Port, d2_Pin, e2_GPIO_Port, e2_Pin, f2_GPIO_Port, f2_Pin, g2_GPIO_Port, g2_Pin);
             break;
 
         default:

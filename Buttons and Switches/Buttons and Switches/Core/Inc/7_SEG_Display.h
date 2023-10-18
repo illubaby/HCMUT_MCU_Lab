@@ -8,6 +8,6 @@
 #ifndef INC_7_SEG_DISPLAY_H_
 #define INC_7_SEG_DISPLAY_H_
 #include "main.h"
-
+void update7SEG();
 
 #endif /* INC_7_SEG_DISPLAY_H_ */
