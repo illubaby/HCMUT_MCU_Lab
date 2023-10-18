@@ -97,6 +97,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   setTimer2(100);
   led_status = INIT;
+  update7SEG(1);
   while (1)
   {
 
