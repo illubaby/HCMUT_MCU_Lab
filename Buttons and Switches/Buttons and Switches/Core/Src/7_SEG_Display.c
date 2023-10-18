@@ -7,7 +7,14 @@
 
 #include "main.h"
 
-void display7SEG(int num) {
+void display7SEG(int num,
+        GPIO_TypeDef* a_GPIO_Port, uint16_t a_Pin,
+        GPIO_TypeDef* b_GPIO_Port, uint16_t b_Pin,
+        GPIO_TypeDef* c_GPIO_Port, uint16_t c_Pin,
+        GPIO_TypeDef* d_GPIO_Port, uint16_t d_Pin,
+        GPIO_TypeDef* e_GPIO_Port, uint16_t e_Pin,
+        GPIO_TypeDef* f_GPIO_Port, uint16_t f_Pin,
+        GPIO_TypeDef* g_GPIO_Port, uint16_t g_Pin) {
 	HAL_GPIO_WritePin(a_GPIO_Port, a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(b_GPIO_Port, b_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(c_GPIO_Port, c_Pin, GPIO_PIN_SET);
@@ -121,7 +128,7 @@ void update7SEG(int index){
             //Display the first 7SEG with led_buffer[0]
     		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
     		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
     		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
         	display7SEG(led_buffer[0]);
             break;
@@ -130,25 +137,10 @@ void update7SEG(int index){
     		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
     		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
     		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
         	display7SEG(led_buffer[1]);
             break;
-        case 2:
-            //Display the third 7SEG with led_buffer[2]
-    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
-    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
-        	display7SEG(led_buffer[2]);
-        	break;
-        case 3:
-        	display7SEG(led_buffer[3]);
-            //Display the forth 7SEG with led_buffer[3]
-    		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
-    		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
-            break;
+
         default:
             break;
     }
