@@ -8,7 +8,7 @@
 #include "main.h"
 #include "7_SEG_Display.h"
 
-int red1_time = 1;
+int red1_time = 5;
 int green1_time = 2;
 int yellow1_time  = 2;
 
@@ -94,7 +94,6 @@ void update_counter() {
     } else {
         update_Led_buffer();
         counter--;
-        led2--;
     }
 }
 
