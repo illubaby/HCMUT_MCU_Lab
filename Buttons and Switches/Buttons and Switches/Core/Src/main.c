@@ -95,17 +95,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer(0,100);
+  set_TIMER_CYCLE();
+  setTimer(0,100);//blinky led
+  setTimer(1,100);// for the counter every 1 s
+  setTimer(2,100); // 7 segment
   led_status = INIT;
-  led_buffer[0] = 1;
-  led_buffer[1] = 2;
-  update7SEG(0);
   initializeArrays_for_Button();
   while (1)
   {
 
-	  fsm_automatic_run();
-	  //fsm_manual_run();
+	  fsm_manual_run();
 
     /* USER CODE END WHILE */
 
