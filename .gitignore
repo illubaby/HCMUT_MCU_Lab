@@ -79,3 +79,5 @@ Buttons and Switches/Buttons and Switches/Lab3.pdsprj.TUF-F15.ADMIN.workspace
 *.xmi
 *.ini
 *.pdom
+*.mk
+Buttons and Switches/Buttons and Switches/Debug/makefile
