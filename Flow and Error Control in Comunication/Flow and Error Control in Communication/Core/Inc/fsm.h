@@ -22,6 +22,6 @@ extern char str[32];
 
 void command_parser_fsm ();
 
-void huart_communiation_fsm ();
+void uart_communiation_fsm ();
 
 #endif /* INC_FSM_H_ */

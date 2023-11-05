@@ -137,10 +137,7 @@ int main(void)
 	   buffer_flag = 0;
 	  }
 	  command_parser_fsm ();
-	  huart_communiation_fsm ();
-
-     // Insert a 500ms delay
-      HAL_Delay(500);
+	  uart_communiation_fsm ();
   }
   /* USER CODE END 3 */
 }
