@@ -87,39 +87,41 @@ void fsm_automatic_run() {
 		}
 		global_update();
 		if (timer_flag[0]==1){
-			led_status = GREEN_LIGHT;
 			setTimer(0, green1_time*1000);
+			led_status = GREEN_LIGHT;
 			counter = green1_time;
 		}
 		break;
 	case GREEN_LIGHT:
-	    // Handle the Green light state
-	    if (counter>=0) {
-	        led1 = counter;
-	        led2 = counter+yellow1_time;
-	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET,
-	                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
-	        global_update();
-	    }
-	    if (counter<0){
-	    	counter = yellow1_time;
-	    	led_status = YELLOW_LIGHT;
-	    }
-	    break;
+			// Handle the Green light state
+			if (counter>=0) {
+				led1 = counter;
+				led2 = counter+yellow1_time;
+				setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET,
+								 GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+				global_update();
+			}
+			if (timer_flag[0]==1){
+				setTimer(0, green1_time*1000);
+				counter = yellow1_time;
+				led_status = YELLOW_LIGHT;
+			}
+			break;
 	case YELLOW_LIGHT:
-	    // Handle the Yellow light state
-	    if (counter >= 0 ) {
-	        led1 = counter;
-	        led2 = counter;
-	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET,
-	                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
-	    }
-	    global_update();
-	    if (counter<0){
-	    counter = red1_time;
-	    led_status = RED_LIGHT;
-	    }
-	    break;
+			// Handle the Yellow light state
+			if (counter >= 0 ) {
+				led1 = counter;
+				led2 = counter;
+				setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET,
+								 GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+			}
+			global_update();
+			if (timer_flag[0]==1){
+			setTimer(0, red1_time*1000);
+			counter = red1_time;
+			led_status = RED_LIGHT;
+			}
+			break;
 	default:
 		break;
 	}
@@ -161,7 +163,7 @@ void fsm_manual_run(){
 			}
 		// display 7 seg led
 			if (timer_flag[2]==1){
-				led1 = 1;
+				led1 = 2;
 				led2 = red1_time_temp;
 				update_Led_buffer();
 				update7SEG(index_led++);
@@ -192,7 +194,7 @@ void fsm_manual_run(){
 	        }
 			// display 7 seg led
 				if (timer_flag[2]==1){
-					led1 = 2;
+					led1 = 3;
 					led2 = yellow1_time_temp;
 					update_Led_buffer();
 					update7SEG(index_led++);
@@ -222,7 +224,7 @@ void fsm_manual_run(){
 	        }
 			// display 7 seg led
 				if (timer_flag[2]==1){
-					led1 = 3;
+					led1 = 4;
 					led2 = green1_time_temp;
 					update_Led_buffer();
 					update7SEG(index_led++);
