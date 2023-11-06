@@ -4,8 +4,8 @@
  *  Created on: Sep 30, 2023
  *      Author: ADMIN
  */
-int timer_counter[3];
-int timer_flag[3];
+int timer_counter[4];
+int timer_flag[4];
 
 int HCLK = 8000000;
 int Prescaler = 7999;
@@ -27,7 +27,7 @@ void setTimer(int timerIndex, int duration) {
 }
 
 void timer_run() {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 4; ++i) {
         if (timer_counter[i] > 0) {
             timer_counter[i]--;
             if (timer_counter[i] == 0) {

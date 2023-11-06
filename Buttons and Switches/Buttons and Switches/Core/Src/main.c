@@ -97,9 +97,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   set_TIMER_CYCLE();
   setTimer(0,100);//blinky led
-  setTimer(1,100);// for the counter every 1 s
-  setTimer(2,100); // 7 segment
-  setTimer(3,100);
+  setTimer(1,100);// for the counter every 1 s, update the value led of 7 segment
+  setTimer(2,100); // for blink the 7 segment
+  setTimer(3,100);	// for the counter of the traffic led
   led_status = INIT;
   initializeArrays_for_Button();
   while (1)

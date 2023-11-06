@@ -74,23 +74,24 @@ void fsm_automatic_run() {
 	calculate_time_for_2_leds();
 	switch(led_status){
 	case RED_LIGHT:
-	        led1 = counter;	//update the first led
-if (counter>=green2_time){
-		led2 =  counter-green2_time;
-		setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
-						 GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET);
-}
-if (counter<green2_time){
-		led2  = counter;
-    setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
-                     GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET);
-}
-	    global_update();
-	    if (counter<0){
-	    	counter = green1_time;
-	    	led_status = GREEN_LIGHT;
-	    }
-	    break;
+		led1 = counter;	//update the first led
+		if (counter>=green2_time){
+				led2 =  counter-green2_time;
+				setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
+								 GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET);
+		}
+		if (counter<green2_time){
+				led2  = counter;
+			setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
+							 GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET);
+		}
+		global_update();
+		if (timer_flag[0]==1){
+			led_status = GREEN_LIGHT;
+			setTimer(0, green1_time*1000);
+			counter = green1_time;
+		}
+		break;
 	case GREEN_LIGHT:
 	    // Handle the Green light state
 	    if (counter>=0) {
@@ -140,9 +141,10 @@ void fsm_manual_run(){
 			if (index_led>2) index_led = 0 ;
 			setTimer(2, 100);
 		}
+
 		counter = red1_time;
 		led_status = RED_LIGHT;
-
+		setTimer(0,red1_time*1000);
 		break;
 	case MODE_2:
 		if (isButtonPressed(0)==1){
