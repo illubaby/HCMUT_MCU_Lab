@@ -10,10 +10,10 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
-#define INIT 	1
-#define AUTO_RED	2
-#define AUTO_YELLOW 3
-#define AUTO_GREEN  4
+#define INIT   1
+#define MODE_2 2
+#define MODE_3 3
+#define NODE_4 4
 
 #define MAN_RED		12
 #define MAN_GREEN   13

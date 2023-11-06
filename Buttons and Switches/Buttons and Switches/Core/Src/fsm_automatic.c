@@ -96,7 +96,9 @@ void update_counter() {
         counter--;
     }
 }
+void fsm_automatic_run(){
 
+}
 void fsm_manual_run(){
 	switch(led_status){
 	case INIT:
@@ -104,7 +106,7 @@ void fsm_manual_run(){
 	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET,
 	                         GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET);
 	        red1_time_temp = red1_time;
-			led_status = AUTO_RED;
+			led_status = MODE_2;
 		}
 		if (timer_flag[1]==1){
 			update_counter();
@@ -117,12 +119,12 @@ void fsm_manual_run(){
 		}
 
 		break;
-	case AUTO_RED:
+	case MODE_2:
 		if (isButtonPressed(0)==1){
 	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET,
 	                         GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET);
 	        yellow1_time_temp = yellow1_time;
-			led_status = AUTO_YELLOW;
+			led_status = MODE_3;
 		}
 		// display led
 			if (timer_flag[0] == 1 ){
@@ -148,13 +150,13 @@ void fsm_manual_run(){
 				red1_time = red1_time_temp;
 			}
 		break;
-	case AUTO_YELLOW:
+	case MODE_3:
 
 	        if (isButtonPressed(0) == 1) {
 		        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET,
 		                         GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET);
 		        green1_time_temp = green1_time;
-	            led_status = AUTO_GREEN;
+	            led_status = NODE_4;
 	        }
 	        if (timer_flag[0] ==1) {
 	            HAL_GPIO_TogglePin(YELLOW1_GPIO_Port, YELLOW1_Pin);
@@ -179,7 +181,7 @@ void fsm_manual_run(){
 					yellow1_time = yellow1_time_temp;
 				}
 	        break;
-	case AUTO_GREEN:
+	case NODE_4:
 
 	        if (isButtonPressed(0) == 1) {
 		        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET,
