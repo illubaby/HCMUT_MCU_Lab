@@ -39,7 +39,7 @@ void setTrafficLights(GPIO_PinState RED1, GPIO_PinState YELLOW1, GPIO_PinState G
 }
 
 
-void update_counter() {
+void fsm_automatic_run() {
     // Handle the Red light state
     if (counter > green1_time + yellow1_time) {
         led1 = counter - (green1_time + yellow1_time);
@@ -96,9 +96,7 @@ void update_counter() {
         counter--;
     }
 }
-void fsm_automatic_run(){
 
-}
 void fsm_manual_run(){
 	switch(led_status){
 	case INIT:
@@ -109,7 +107,7 @@ void fsm_manual_run(){
 			led_status = MODE_2;
 		}
 		if (timer_flag[1]==1){
-			update_counter();
+			fsm_automatic_run();
 			setTimer(1, 1000);
 		}
 		if (timer_flag[2]==1){
