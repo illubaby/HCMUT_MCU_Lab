@@ -38,64 +38,93 @@ void setTrafficLights(GPIO_PinState RED1, GPIO_PinState YELLOW1, GPIO_PinState G
   HAL_GPIO_WritePin(GREEN2_GPIO_Port, GREEN2_Pin, GREEN2);
 }
 
-
-void fsm_automatic_run() {
-    // Handle the Red light state
-    if (counter > green1_time + yellow1_time) {
-        led1 = counter - (green1_time + yellow1_time);
-
-        if (green2_time > 0) {
-            setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
-                             GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET);
-            led2 = green2_time;
-            green2_time--;
-        } else if (yellow2_time > 0) {
-            setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
-                             GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET);
-            led2 = yellow2_time;
-            yellow2_time--;
-        } else {
-            setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
-                             GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET);
-        }
+void global_update(){
+	update_Led_buffer();
+	if (timer_flag[2]==1){	// for update the infomation in the led
+		update7SEG(index_led++);
+		if (index_led>2) index_led = 0 ;
+		setTimer(2, 100);
+	}
+	if (isButtonPressed(0)==1){ // if the button 1 is press, change the next mode
+        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET,
+                         GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+        red1_time_temp = red1_time;
+		led_status = MODE_2;
+	}
+	if (timer_flag[1]==1){	//COUNT every 1s
+		counter--;
+		setTimer(1, 1000);
+	}
+}
+void calculate_time_for_2_leds(){
+    if (red1_time > green1_time ) {	// We must prioritize the green light first
+        green2_time = green1_time;
+        yellow2_time = red1_time - green1_time;
     }
-
-    // Handle the Green light state
-    else if (counter > yellow1_time && counter <= (green1_time + yellow1_time)) {
-        led1 = counter - yellow1_time;
-        led2 = counter;
-        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET,
-                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+    else if (red1_time> yellow1_time){ // then if green bigger then red, we prioritize yellow
+    	yellow2_time = yellow1_time;
+    	green2_time = red1_time - yellow1_time;
     }
-    // Handle the Yellow light state
-    else if (counter > 0 && counter <= yellow1_time) {
-        led1 = counter;
-        led2 = counter;
-        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET,
-                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
-    }
-
-    // Reset counter and calculate time for the second light (led2)
-    if (counter == 0) {
-        counter = green1_time + yellow1_time + red1_time;
-
-        if (red1_time > green1_time ) {	// We must prioritize the green light first
-            green2_time = green1_time;
-            yellow2_time = red1_time - green1_time;
-        }
-        else if (red1_time> yellow1_time){ // then if green bigger then red, we prioritize yellow
-        	yellow2_time = yellow1_time;
-        	green2_time = red1_time - yellow1_time;
-        }
-        else {								// finally, we assign all time for the green, yellow = 0;
-        	green2_time = red1_time;
-        	yellow2_time = 0 ;
-        }
-    } else {
-        update_Led_buffer();
-        counter--;
+    else {								// finally, we assign all time for the green, yellow = 0;
+    	green2_time = red1_time;
+    	yellow2_time = 0 ;
     }
 }
+void fsm_automatic_run() {
+	calculate_time_for_2_leds();
+	switch(led_status){
+	case RED_LIGHT:
+	        led1 = counter;	//update the first led
+if (counter>=green2_time){
+		led2 =  counter-green2_time;
+		setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
+						 GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET);
+}
+if (counter<green2_time){
+		led2  = counter;
+    setTrafficLights(GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET,
+                     GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET);
+}
+	    global_update();
+	    if (counter<0){
+	    	counter = green1_time;
+	    	led_status = GREEN_LIGHT;
+	    }
+	    break;
+	case GREEN_LIGHT:
+	    // Handle the Green light state
+	    if (counter>=0) {
+	        led1 = counter;
+	        led2 = counter+yellow1_time;
+	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_RESET, GPIO_PIN_SET,
+	                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+	        global_update();
+	    }
+	    if (counter<0){
+	    	counter = yellow1_time;
+	    	led_status = YELLOW_LIGHT;
+	    }
+	    break;
+	case YELLOW_LIGHT:
+	    // Handle the Yellow light state
+	    if (counter >= 0 ) {
+	        led1 = counter;
+	        led2 = counter;
+	        setTrafficLights(GPIO_PIN_RESET, GPIO_PIN_SET, GPIO_PIN_RESET,
+	                         GPIO_PIN_SET, GPIO_PIN_RESET, GPIO_PIN_RESET);
+	    }
+	    global_update();
+	    if (counter<0){
+	    counter = red1_time;
+	    led_status = RED_LIGHT;
+	    }
+	    break;
+	default:
+		break;
+	}
+
+}
+
 
 void fsm_manual_run(){
 	switch(led_status){
@@ -106,15 +135,13 @@ void fsm_manual_run(){
 	        red1_time_temp = red1_time;
 			led_status = MODE_2;
 		}
-		if (timer_flag[1]==1){
-			fsm_automatic_run();
-			setTimer(1, 1000);
-		}
-		if (timer_flag[2]==1){
+		if (timer_flag[2]==1){	// for update the infomation in the led
 			update7SEG(index_led++);
 			if (index_led>2) index_led = 0 ;
 			setTimer(2, 100);
 		}
+		counter = red1_time;
+		led_status = RED_LIGHT;
 
 		break;
 	case MODE_2:

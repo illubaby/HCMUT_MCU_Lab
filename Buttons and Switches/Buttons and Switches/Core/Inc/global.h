@@ -14,6 +14,9 @@
 #define MODE_2 2
 #define MODE_3 3
 #define NODE_4 4
+#define RED_LIGHT 5
+#define GREEN_LIGHT 6
+#define YELLOW_LIGHT 7
 
 #define MAN_RED		12
 #define MAN_GREEN   13

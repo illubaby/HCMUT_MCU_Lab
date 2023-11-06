@@ -99,13 +99,14 @@ int main(void)
   setTimer(0,100);//blinky led
   setTimer(1,100);// for the counter every 1 s
   setTimer(2,100); // 7 segment
+  setTimer(3,100);
   led_status = INIT;
   initializeArrays_for_Button();
   while (1)
   {
 
 	  fsm_manual_run();
-	  //fsm_automatic_run();
+	  fsm_automatic_run();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
