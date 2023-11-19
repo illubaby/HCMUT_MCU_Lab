@@ -135,8 +135,9 @@ int main(void)
 	  if( buffer_flag == 1){
 
 	   buffer_flag = 0;
+		  command_parser_fsm ();
+
 	  }
-	  command_parser_fsm ();
 	  uart_communiation_fsm ();
   }
   /* USER CODE END 3 */

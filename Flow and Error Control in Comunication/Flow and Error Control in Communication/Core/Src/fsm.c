@@ -16,7 +16,7 @@ void command_parser_fsm() {
 	    if (strstr((const char *)buffer, "!RST#") != NULL) {
 	    	state = INFO;
 	    }
-	    else if (strstr((const char *)buffer, "OK") != NULL) {
+	    else if (strstr((const char *)buffer, "!OK#") != NULL) {
 	    	state = INIT;
 	    }
 }
@@ -31,7 +31,7 @@ void uart_communiation_fsm (){
 		HAL_ADC_Stop(&hadc1);
 		ADC_value = HAL_ADC_GetValue(&hadc1); // Make sure hadc1 is declared and initialized
 
-		int len = sprintf(str," !ADC=%lu# ",ADC_value); // the total number of character
+		int len = sprintf(str," !ADC=%lu# \r\n",ADC_value); // the total number of character
 		HAL_UART_Transmit (& huart2 , ( void *) str , len, 1000);
 
         // Clear the command buffer or handle it as required
