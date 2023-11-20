@@ -8,6 +8,7 @@
 #include "fsm.h"
 #include "string.h"
 #include "stdio.h"
+#include "software_timer.h"
 int command_flag = 0;
 int state = 0 ;
 char command_data[MAX_BUFFER_SIZE];
@@ -26,6 +27,7 @@ void uart_communiation_fsm (){
 	case INIT:
 		break;
 	case INFO:
+		if (timer_flag[0]==1){
 		HAL_ADC_Start(&hadc1); // Make sure hadc1 is declared and initialized
 		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); // Wait for the conversion to be finished
 		HAL_ADC_Stop(&hadc1);
@@ -37,8 +39,9 @@ void uart_communiation_fsm (){
         // Clear the command buffer or handle it as required
          memset(buffer, 0, sizeof(buffer));
          index_buffer = 0;
-
-         HAL_Delay(1000);
+         setTimer(0, 3000);
+		}
+         //HAL_Delay(3000);
 		break;
 	default:
 		break;

@@ -12,7 +12,11 @@
 #define INIT 	1
 #define INFO	2
 #define END 3
+#define START_PASER 4
+#define END_PASER 5
 extern int state;
+extern int state_paser;
+extern uint8_t temp;
 extern uint8_t buffer[MAX_BUFFER_SIZE]; // Use the same size as declared in main.c
 extern uint8_t index_buffer;
 extern uint32_t ADC_value ;

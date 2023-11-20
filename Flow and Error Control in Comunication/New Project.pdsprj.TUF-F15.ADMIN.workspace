@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <WORKSPACE>
  <FRAME activewindow="0">
-  <PLACEMENT>2c00000002000000030000000083ffff0083ffffffffffffffffffff9602000041000000bc06000033040000</PLACEMENT>
+  <PLACEMENT>2c0000000200000003000000ffffffffffffffffffffffffffffffff9602000041000000bc06000033040000</PLACEMENT>
   <WINDOW type="default" module="ISIS"/>
  </FRAME>
  <MODULE name="VSMDEBUG">
@@ -32,7 +32,7 @@
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="450" x="146" flags="00008023" y="269" h="250" pid="0" iid="2">
+   <POPUP w="450" x="-1684" flags="00008023" y="572" h="250" pid="0" iid="2">
     <PROPERTIES>
      <ITEM name="AutoEcho">0</ITEM>
      <ITEM name="HexMode">0</ITEM>
@@ -340,7 +340,7 @@
    </POPUP>
    <POPUP w="600" x="766" flags="0000002a" y="608" h="400" pid="100" iid="1">
     <PROPERTIES>
-     <ITEM name="Breakpoint 0">"",80004CA,0000,8198,9D44,-756891392
+     <ITEM name="Breakpoint 0">"",80004C8,0000,0D03,9D44,-756891392
 </ITEM>
      <ITEM name="CaseSensitive">No</ITEM>
      <ITEM name="DISPADDRS">Yes</ITEM>
