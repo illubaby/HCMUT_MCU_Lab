@@ -46,6 +46,4 @@ void uart_communiation_fsm (){
 	default:
 		break;
 	}
-
-
 }
