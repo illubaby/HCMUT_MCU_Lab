@@ -6,6 +6,7 @@
  */
 //#include "Arduino.h"
 #include "scheduler.h"
+#include "stm32f1xx_hal.h"
 
 
 typedef struct {
@@ -18,14 +19,10 @@ typedef struct {
 
 // The array of tasks
 static sTask SCH_tasks_G[SCH_MAX_TASKS];
-//static uint8_t array_Of_Task_ID[SCH_MAX_TASKS];
-static uint32_t newTaskID = 0;
-//static uint32_t rearQueue = 0;
-//static uint32_t count_SCH_Update = 0;
 
+static uint32_t newTaskID = 0;
 
 static uint32_t Get_New_Task_ID(void);
-//static void TIMER_Init();
 unsigned char Error_code_G = 0;
 
 void SCH_Init(void){
@@ -33,38 +30,10 @@ void SCH_Init(void){
     for (i = 0; i < SCH_MAX_TASKS; i++) {
         SCH_Delete_Task(i);
     }
-    // Reset the global error variable
-    // - SCH_Delete_Task() will generate an error code,
-    // (because the task array is empty)
-    Error_code_G = 0;
-//    Timer_init();
-//    Watchdog_init();
 }
-void SCH_Report_Status(void) {
-#ifdef SCH_REPORT_ERRORS
-    // ONLY APPLIES IF WE ARE REPORTING ERRORS
-    // Check for a new error code
-    if (Error_code_G != Last_error_code_G) {
-        // Negative logic on LEDs assumed
-        Error_port = 255 - Error_code_G;
-        Last_error_code_G = Error_code_G;
-        if (Error_code_G != 0){
-            Error_tick_count_G = 60000;
-        } else {
-            Error_tick_count_G = 0;
-        }
-    } else {
-        if (Error_tick_count_G != 0){
-            if (--Error_tick_count_G == 0)   {
-                Error_code_G = 0; // Reset error code
-            }
-        }
-    }
-#endif
-}
+
 void SCH_Update(void){
 	//CHECK ALL TASK 'S DELAY TIME. IF RUN OUT, RUN THAT TASK
-	//count_SCH_Update ++;
 	if (SCH_tasks_G[0].pTask && SCH_tasks_G[0].RunMe == 0) {
 		if(SCH_tasks_G[0].Delay > 0){
 			SCH_tasks_G[0].Delay = SCH_tasks_G[0].Delay - 1;
@@ -141,7 +110,7 @@ uint8_t SCH_Delete_Task(uint32_t taskID){
 						SCH_tasks_G[taskIndex+1].Delay += SCH_tasks_G[taskIndex].Delay;
 					}
 				}
-
+				// after delete the task, shift the array
 				for( j = taskIndex; j < SCH_MAX_TASKS - 1; j ++){
 					SCH_tasks_G[j].pTask = SCH_tasks_G[j+1].pTask;
 					SCH_tasks_G[j].Period = SCH_tasks_G[j+1].Period;
@@ -172,6 +141,8 @@ void SCH_Dispatch_Tasks(void){
 			SCH_Add_Task(temtask.pTask, temtask.Period, temtask.Period);
 		}
 	}
+	// Enter low-power mode (Sleep mode). The MCU will wake up on the next interrupt
+	    HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
 }
 
 static uint32_t Get_New_Task_ID(void){

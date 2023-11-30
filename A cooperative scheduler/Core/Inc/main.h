@@ -62,6 +62,8 @@ void Error_Handler(void);
 #define TEST_GPIO_Port GPIOA
 #define TASK2_Pin GPIO_PIN_4
 #define TASK2_GPIO_Port GPIOA
+#define TASK3_Pin GPIO_PIN_5
+#define TASK3_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -71,27 +71,9 @@ uint8_t temp = 0;
 uint8_t buffer[MAX_BUFFER_SIZE];
 uint8_t index_buffer = 0;
 uint8_t buffer_flag = 0;
-#define DELETE_CHAR 0x08 // For the ASCII 'delete' character
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     if(huart->Instance == USART2){
-    	if (temp==DELETE_CHAR){
-			if (index_buffer>0){
-				index_buffer--;
-			}
-
-			HAL_UART_Transmit(&huart2, (uint8_t *)"\b \b", 3, 50); // for the termination of the backspace
-    	}
-    	else {
-    		if (temp=='!'){
-    			index_buffer = 0;
-    		}
-			HAL_UART_Transmit(&huart2, &temp, 1, 50);
-			buffer[index_buffer++] = temp;
-			if(index_buffer == MAX_BUFFER_SIZE) index_buffer = 0;
-
-    	}
-			buffer_flag = 1;
-			HAL_UART_Receive_IT(huart, &temp, 1);
+    	global_transmit(huart);
     }
 }
 /* USER CODE END 0 */
@@ -131,29 +113,25 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
   set_TIMER_CYCLE();
   setTimer(1, 100);
-  setTimer(0, 100);
   HAL_UART_Receive_IT(&huart2, &temp, 1);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  SCH_Add_Task(task1, 10, 100);
-  SCH_Add_Task(task2, 10, 200);
+  SCH_Add_Task(task1, 0, 50);
+  SCH_Add_Task(task2, 25, 50);
+  SCH_Add_Task(task3, 50, 50);
+  SCH_Add_Task(task4, 0, 300);
+  SCH_Add_Task(task5, 0, 10);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
-	  //SCH_Dispatch_Tasks();
-	  if( buffer_flag == 1){
+	  SCH_Dispatch_Tasks();
 
-		  buffer_flag = 0;
-		  command_parser_fsm ();
-
-	  }
-	  uart_communiation_fsm ();
   }
   /* USER CODE END 3 */
 }
@@ -336,10 +314,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, TEST_Pin|TASK2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, TEST_Pin|TASK2_Pin|TASK3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : TEST_Pin TASK2_Pin */
-  GPIO_InitStruct.Pin = TEST_Pin|TASK2_Pin;
+  /*Configure GPIO pins : TEST_Pin TASK2_Pin TASK3_Pin */
+  GPIO_InitStruct.Pin = TEST_Pin|TASK2_Pin|TASK3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -350,7 +328,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim2){
 	timer_run();
-	//SCH_Update();
+	SCH_Update();
 }
 /* USER CODE END 4 */
 
